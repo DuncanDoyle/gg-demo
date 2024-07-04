@@ -1,0 +1,15 @@
+
+apiVersion: enterprise.gloo.solo.io/v1
+kind: AuthConfig
+metadata:
+  name: oauth-oidc-atv-portal-auth
+  namespace: default
+spec:
+  configs:
+    - name: keycloak_oidc_atv
+      oauth2:
+        accessTokenValidation:
+          jwt:
+            remoteJwks:
+              # url: https://dev-8wr0e3o2e0knm1oy.us.auth0.com/.well-known/jwks.json
+              url: http://keycloak.keycloak.svc.cluster.local/realms/master/protocol/openid-connect/certs

@@ -1,0 +1,21 @@
+apiVersion: gateway.solo.io/v1
+kind: RouteOption
+metadata:
+  name: policy-filter
+  namespace: default
+spec:
+  options:
+    # prefixRewrite: /
+    # Mirrors the Settings CR, where we defined a descriptor
+    # that will match when generic_key=2
+    ratelimit:
+      rateLimits:
+      - actions:
+        - genericKey:
+            descriptorValue: "2"
+    headerManipulation:
+      # add headers to all responses
+      responseHeadersToAdd:
+        - header:
+            key: "gg-demo-header"
+            value: "rate-limit-demo"

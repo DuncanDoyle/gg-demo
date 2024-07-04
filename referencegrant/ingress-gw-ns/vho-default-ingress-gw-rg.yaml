@@ -1,0 +1,13 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: vho-default-ingress-gw-rg
+  namespace: ingress-gw
+spec:
+  from:
+    - group: gateway.solo.io
+      kind: VirtualHostOption
+      namespace: default
+  to:
+    - group: gateway.networking.k8s.io
+      kind: Gateway

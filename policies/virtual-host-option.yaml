@@ -1,0 +1,22 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualHostOption
+metadata:
+  name: virtualhost-options
+  namespace: default
+spec:
+  options:
+    headerManipulation:
+      requestHeadersToRemove: ["content-header"]
+      responseHeadersToAdd:
+        - header:
+            key: "gg-demo-header-2"
+            value: "virtual-host-options"
+    retries:
+      retryOn: 'connect-failure'
+      numRetries: 5
+      perTryTimeout: '10s'
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: gw
+    namespace: ingress-gw

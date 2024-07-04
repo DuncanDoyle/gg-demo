@@ -1,0 +1,19 @@
+apiVersion: gateway.solo.io/v1
+kind: RouteOption
+metadata:
+  name: policy-filter
+  namespace: default
+spec:
+  options:
+    # prefixRewrite: /
+    extauth:
+      configRef:
+        # references the AuthConfig we defined in auth-config.yaml
+        name: basic-auth
+        namespace: default
+    headerManipulation:
+      # add headers to all responses
+      responseHeadersToAdd:
+        - header:
+            key: "gg-demo-header"
+            value: "auth-config-demo"
