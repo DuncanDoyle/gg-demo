@@ -14,16 +14,20 @@ spec:
       - prefix: /httpbin/
       routeAction:
         single:
-          kube:
-            ref:
-              name: httpbin
-              namespace: httpbin
-            port: 8000
-          # upstream:
-          #   name: httpbin-httpbin-8000
-          #   namespace: gloo-system 
+          # kube:
+          #   ref:
+          #     name: httpbin
+          #     namespace: httpbin
+          #   port: 8000
+          upstream:
+            name: httpbin-httpbin-8000
+            namespace: gloo-system 
       options:
         prefixRewrite: /
+      # optionsConfigRefs:
+      #   delegateOptions:
+      #   - name: httpbin
+      #     namespace: default  
     # options:
       # Configures ExtAuth on our routes
       # extauth:

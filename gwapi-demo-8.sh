@@ -2,9 +2,12 @@
 
 #----------------------------------------- HTTPBin HttpRoute with Label-based Delegation -----------------------------------------
 
-kubectl apply -f routes/httpbin-httproute.yaml
+# Reference Grant to allow access to the TLS Cert secret.
+kubectl apply -f referencegrants/gloo-system-ns/gw-ingress-gw-secret-reference-grant.yaml
 
-kubectl apply -f routes/api-example-com-root-httproute-2.yaml
+# Create httpbin namespace if it does not exist yet
+kubectl apply -f routes/api-example-com-https-route.yaml
+
 
 ################################################################################################## 
 # Demo: Show the status of HTTPRoute to show that the route has been correctly deployed.
@@ -13,6 +16,5 @@ kubectl apply -f routes/api-example-com-root-httproute-2.yaml
 #
 # Demo: Show that we can access the HTTPBin service.
 #
-# $ curl -v http://api.example.com/httpbin/get
+# $ curl -vk https://api.example.com/httpbin/get
 ##################################################################################################
-

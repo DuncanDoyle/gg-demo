@@ -10,7 +10,7 @@ spec:
     - name: gw
       namespace: ingress-gw
   hostnames:
-    - "httpbin.example.com"
+    - "api.example.com"
   rules:
     - matches:  
       - path:
@@ -28,4 +28,4 @@ spec:
       - group: delegation.gateway.solo.io
         kind: label # no other value is allowed
         name: httpbin # label value
-        namespace: foo # defaults to parent's namespace if unset
+        namespace: default # defaults to parent's namespace if unset

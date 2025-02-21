@@ -9,7 +9,7 @@ spec:
   parentRefs:
     - name: gw
       namespace: ingress-gw
-      sectionName: https
+      sectionName: https-a-e-c
   hostnames:
     - "api.example.com"
   rules:

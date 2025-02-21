@@ -32,3 +32,21 @@ spec:
       - name: httpbin
         namespace: httpbin
         port: 8000
+    # Callback for OAuth/OIDC
+    - matches:  
+      - path:
+          type: Exact
+          value: /callback
+      - path:
+          type: Exact
+          value: /logout
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.solo.io
+          kind: RouteOption
+          name: oidc-acf
+      backendRefs:
+      - name: httpbin
+        namespace: httpbin
+        port: 8000

@@ -20,27 +20,27 @@ spec:
           selector:
             matchLabels:
               shared-gateway-access: "true"
-    # - protocol: HTTPS
-    #   port: 443
-    #   name: https-a-e-c
-    #   # Setting the hostname seems to also set the SNI domain in the TLS Config in the ProxySpec.
-    #   # It also limits the selection of HTTPRoutes to those routes that have matching hostnames.
-    #   hostname: api.example.com
-    #   # When specifying a wildcard here, the SNI domain will be the wildcard, and not the individual hostnames of the HTTPRoutes attached to this listener.
-    #   # hostname: "*.example.com"
-    #   tls:
-    #     mode: Terminate
-    #     certificateRefs:
-    #       - kind: Secret
-    #         group: ""
-    #         name: api-example-com
-    #         namespace: gloo-system
-    #   allowedRoutes:
-    #     namespaces:
-    #       # from: Same
-    #       # from: All
-    #       from: Selector # Only allow routes from namespaces with the following label set.
-    #       selector:
-    #         matchLabels:
-    #           shared-gateway-access: "true"
+    - protocol: HTTPS
+      port: 443
+      name: https-a-e-c
+      # Setting the hostname also sets the SNI domain in the TLS Config in the ProxySpec.
+      # It also limits the selection of HTTPRoutes to those routes that have matching hostnames.
+      hostname: api.example.com
+      # When specifying a wildcard here, the SNI domain will be the wildcard, and not the individual hostnames of the HTTPRoutes attached to this listener.
+      # hostname: "*.example.com"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            group: ""
+            name: api-example-com
+            namespace: gloo-system
+      allowedRoutes:
+        namespaces:
+          # from: Same
+          # from: All
+          from: Selector # Only allow routes from namespaces with the following label set.
+          selector:
+            matchLabels:
+              shared-gateway-access: "true"
   
