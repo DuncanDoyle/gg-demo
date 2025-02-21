@@ -3,12 +3,15 @@ apiVersion: gateway.networking.k8s.io/v1
 metadata:
   name: gw
   namespace: ingress-gw
+  annotations:
+    gateway.gloo.solo.io/gateway-parameters-name: custom-gw-params
 spec:
   gatewayClassName: gloo-gateway
   listeners:
     - protocol: HTTP
       port: 80
       name: http
+      hostname: "*.example.com"
       allowedRoutes:
         namespaces:
           # from: Same
@@ -17,5 +20,27 @@ spec:
           selector:
             matchLabels:
               shared-gateway-access: "true"
-        # Define which kinds of routes we accept
-        # kinds:
+    # - protocol: HTTPS
+    #   port: 443
+    #   name: https-a-e-c
+    #   # Setting the hostname seems to also set the SNI domain in the TLS Config in the ProxySpec.
+    #   # It also limits the selection of HTTPRoutes to those routes that have matching hostnames.
+    #   hostname: api.example.com
+    #   # When specifying a wildcard here, the SNI domain will be the wildcard, and not the individual hostnames of the HTTPRoutes attached to this listener.
+    #   # hostname: "*.example.com"
+    #   tls:
+    #     mode: Terminate
+    #     certificateRefs:
+    #       - kind: Secret
+    #         group: ""
+    #         name: api-example-com
+    #         namespace: gloo-system
+    #   allowedRoutes:
+    #     namespaces:
+    #       # from: Same
+    #       # from: All
+    #       from: Selector # Only allow routes from namespaces with the following label set.
+    #       selector:
+    #         matchLabels:
+    #           shared-gateway-access: "true"
+  

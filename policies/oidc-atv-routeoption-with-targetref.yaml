@@ -1,0 +1,36 @@
+apiVersion: gateway.solo.io/v1
+kind: RouteOption
+metadata:
+  name: oidc-atv-target-ref
+  namespace: default
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: api-example-com-root-route
+    namespace: default
+  options:
+    # prefixRewrite: /
+    extauth:
+      configRef:
+        # references the AuthConfig we defined in oauth-oidc-atv-authconfig.yaml
+        name: oauth-oidc-atv-auth
+        namespace: default
+    cors:
+      allowOrigin:
+        - http://localhost:4000
+        - http://127.0.0.1:4000
+        - http://portal.example.com
+        - http://portal.example.com:8080
+      allowHeaders:
+        - "Content-Type"
+        - "Authorization"
+        - "Access-Control-Allow-Origin"
+        - "api-key"
+      allowMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowCredentials: true

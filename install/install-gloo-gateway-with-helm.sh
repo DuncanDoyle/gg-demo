@@ -25,6 +25,7 @@ pushd ../
 kubectl create namespace ingress-gw --dry-run=client -o yaml | kubectl apply -f -
 
 printf "\nDeploy the Gateway ...\n"
+kubectl apply -f gateways/gateway-parameters.yaml
 kubectl apply -f gateways/gw.yaml
 
 #----------------------------------------- Deploy Keycloak -----------------------------------------

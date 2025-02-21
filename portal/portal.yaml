@@ -9,7 +9,7 @@ spec:
   # domains:
   #   - developer.example.com
   apiProducts:
-    - name: tracks
+    - name: "*"
       namespace: tracks
     - name: httpbin
       namespace: httpbin

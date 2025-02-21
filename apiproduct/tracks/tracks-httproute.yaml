@@ -5,20 +5,15 @@ metadata:
   namespace: tracks
   labels:
     app: tracks-rest-api-1.0
-  # annotations:
-  #   delegation.gateway.solo.io/inherit-parent-matcher: "true"
+  annotations:
+    delegation.gateway.solo.io/inherit-parent-matcher: "true"
 spec:
-  # parentRefs:
-  #   - name: gw
-  #     namespace: ingress-gw
-  # hostnames:
-  #   - "tracks.example.com"
   rules:
     - matches:  
       - path:
           type: PathPrefix
-          # value: /
-          value: /trackapi/v1.0/
+          value: /
+          # value: /trackapi/v1.0/
       # We can also specify the URLRewrite on this level, which will also still be picked up on the APIProduct.
       # filters:
       # - type: URLRewrite
@@ -30,3 +25,18 @@ spec:
       - name: tracks-rest-api-1-0
         namespace: tracks
         port: 5000
+    # - matches:  
+    #   - path:
+    #       type: PathPrefix
+    #       value: /trackapi/v2.0/
+    #   # We can also specify the URLRewrite on this level, which will also still be picked up on the APIProduct.
+    #   # filters:
+    #   # - type: URLRewrite
+    #   #   urlRewrite:
+    #   #     path:
+    #   #       type: ReplacePrefixMatch
+    #   #       replacePrefixMatch: /
+    #   backendRefs:
+    #   - name: tracks-rest-api-1-0
+    #     namespace: tracks
+    #     port: 5000

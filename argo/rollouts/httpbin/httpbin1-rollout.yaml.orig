@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: httpbin1
+  namespace: httpbin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin1
+      version: v1
+  strategy:
+    canary:
+      steps:
+      - pause: {}
+      - setWeight: 50
+      - pause: {}
+      - setWeight: 100
+      - pause: {}
+  template:
+    metadata:
+      labels:
+        app: httpbin1
+        version: v1
+    spec:
+      serviceAccountName: httpbin1
+      containers:
+      - name: httpbin
+        image: mccutchen/go-httpbin:v2.13.4
+        command: [ go-httpbin ]
+        args:
+          - "-max-duration"
+          - "600s" # override default 10s
+          - -use-real-hostname
+        ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /status/200
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /status/200
+            port: http
+        resources:
+          limits:
+            cpu: 1
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        env:
+        - name: K8S_MEM_LIMIT
+          valueFrom:
+            resourceFieldRef:
+              divisor: "1"
+              resource: limits.memory
+        - name: GOMAXPROCS
+          valueFrom:
+            resourceFieldRef:
+              divisor: "1"
+              resource: limits.cpu

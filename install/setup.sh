@@ -15,7 +15,7 @@ printf "\nDeploy HTTPBin service ...\n"
 kubectl apply -f apis/httpbin/httpbin.yaml
 
 # printf "\nDeploy the ReferenceGrant. This is needed for cross-namespace routing ...\n"
-# kubectl apply -f referencegrant/api-example-com-httpbin-reference-grant-service.yaml
+kubectl apply -f referencegrant/api-example-com-httpbin-reference-grant-service.yaml
 
 printf "\nDeploy HTTPBin APISchemaDiscovery ...\n"
 kubectl apply -f apis/httpbin/httpbin-apischemadiscovery.yaml
@@ -45,6 +45,7 @@ kubectl apply -f apis/tracks/tracks-api-1.0.yaml
 printf "\nDeploy the Tracks HTTPRoute (delegatee) and the HTTP APIProduct ...\n"
 kubectl apply -f apiproduct/tracks/tracks-httproute.yaml
 kubectl apply -f apiproduct/tracks/tracks-apiproduct-httproute.yaml
+kubectl apply -f apiproduct/tracks/tracks-v2-apiproduct-httproute.yaml
 kubectl apply -f apiproduct/tracks/tracks-apiproduct.yaml
 kubectl apply -f referencegrant/tracks-ns/portal-tracks-apiproduct-reference-grant.yaml
 

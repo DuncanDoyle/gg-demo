@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gw-pdb
+  namespace: ingress-gw
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      gateway.networking.k8s.io/gateway-name: gw

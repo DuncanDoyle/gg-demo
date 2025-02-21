@@ -1,13 +1,13 @@
 apiVersion: gateway.solo.io/v1
 kind: RouteOption
 metadata:
-  name: policy-filter
+  name: api-example-com-httpbin
   namespace: default
 spec:
   options:
     # ddoyle: Wouldn't this clash with the URLRewrite/ReplacePrefixMatch filter in the HTTPRoute?
     # Seems that the K8S Gateway API gets precedence over the configuration here.
-    # prefixRewrite: /
+    prefixRewrite: /
     headerManipulation:
       # add headers to all responses
       responseHeadersToAdd:

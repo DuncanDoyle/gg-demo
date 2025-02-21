@@ -11,7 +11,6 @@ spec:
         accessTokenValidation:
           jwt:
             remoteJwks:
-              # url: https://dev-8wr0e3o2e0knm1oy.us.auth0.com/.well-known/jwks.json
               url: http://keycloak.keycloak.svc.cluster.local/realms/master/protocol/openid-connect/certs
           dynamicMetadataFromClaims:
             usagePlan: usagePlan

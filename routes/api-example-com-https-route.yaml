@@ -16,6 +16,9 @@ spec:
       - path:
           type: PathPrefix
           value: /httpbin/
+      - path:
+          type: PathPrefix
+          value: /httpbin2/
       # Can't combine URLRewrite ReplacePrefixMatch filter with 2 matchers: https://github.com/solo-io/gloo/issues/8923
       # - headers:
       #   - name: version

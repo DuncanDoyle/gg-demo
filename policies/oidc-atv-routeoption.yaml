@@ -11,21 +11,21 @@ spec:
         # references the AuthConfig we defined in oauth-oidc-atv-authconfig.yaml
         name: oauth-oidc-atv-auth
         namespace: default
-    stagedTransformations:
-      # inheritTransformation: true
-      # early:
-      regular:
-        requestTransforms:
-        - requestTransformation:
-            transformationTemplate:
-              headers:
-                foo:
-                  text: 'baz'
-              dynamicMetadataValues:
-              - metadataNamespace: "org.ddoyle"
-                key: 'foo'
-                value:
-                  text: 'bar'
+    # stagedTransformations:
+    #   # inheritTransformation: true
+    #   # early:
+    #   regular:
+    #     requestTransforms:
+    #     - requestTransformation:
+    #         transformationTemplate:
+    #           headers:
+    #             foo:
+    #               text: 'baz'
+    #           dynamicMetadataValues:
+    #           - metadataNamespace: "org.ddoyle"
+    #             key: 'foo'
+    #             value:
+    #               text: 'bar'
         # - matchers:
         #   - prefix: '/parent'
         #   requestTransformation:

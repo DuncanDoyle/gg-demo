@@ -58,9 +58,10 @@ spec:
     spec:
       serviceAccountName: httpbin
       containers:
-        - image: docker.io/mccutchen/go-httpbin:v2.6.0
+        - name: httpbin
+          # image: docker.io/kennethreitz/httpbin
+          image: docker.io/mccutchen/go-httpbin:v2.6.0
           imagePullPolicy: IfNotPresent
-          name: httpbin
           command: [ go-httpbin ]
           args:
             - "-port"

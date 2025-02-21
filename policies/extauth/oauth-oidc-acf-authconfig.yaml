@@ -8,8 +8,7 @@ spec:
     - name: keycloak_oidc
       oauth2:
         oidcAuthorizationCode:
-          afterLogoutUrl: http://www.google.com
-          appUrl: http://api.example.com
+          appUrl: http://httpbin.example.com
           autoMapFromMetadata:
             namespace: solo_authconfig_oidc
           callbackPath: /callback
@@ -30,7 +29,7 @@ spec:
             cookieOptions:
               notSecure: true
               # Expire the session cookie after a minute, forcing a re-login
-              maxAge: 30
+              maxAge: 3600
             # Store the id_token and access_token in Redis, and only sent session ID back to the client.
             failOnFetchFailure: true
             redis:

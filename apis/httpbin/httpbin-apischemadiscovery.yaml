@@ -6,7 +6,6 @@ metadata:
 spec:
   openapi:
     fetchEndpoint:
-      # url: https://openlibrary.org/static/openapi.json
       url: https://raw.githubusercontent.com/solo-io/solo-blog/main/zero-to-gateway/httpbin-openapi.json
       retryDelay: "1s"
       pullAttempts: 30

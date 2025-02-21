@@ -1,0 +1,25 @@
+apiVersion: gateway.gloo.solo.io/v1alpha1
+kind: GatewayParameters
+metadata:
+  name: custom-gw-params
+  namespace: ingress-gw
+spec:
+  kube:
+    # service:
+    #   type: NodePort
+    deployment:
+      replicas: 1
+    # envoyContainer:
+    #   image:
+    #     pullPolicy: IfNotPresent
+    #     registry: quay.io/solo-io
+    #     repository: gloo-ee-envoy-wrapper-fips
+        # tag: 1.18.3
+    #   extraLabels:
+    #     gateway: custom
+    # podTemplate:
+    #   extraLabels:
+    #     gateway: custom
+    #   securityContext:
+    #     fsGroup: 50000
+    #     runAsUser: 50000

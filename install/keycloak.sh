@@ -109,6 +109,74 @@ EOM
 curl -k -X POST -H "Authorization: Bearer ${KEYCLOAK_TOKEN}" -H "Content-Type: application/json" -d "$CONFIGURE_GROUP_CLAIM_IN_JWT_JSON" $KEYCLOAK_URL/admin/realms/master/clients/${REG_ID}/protocol-mappers/models
 
 
+################################################ WebApp Client: webapp-client ################################################
+# Register the webapp-client
+export WEBAPP_CLIENT_ID=webapp-client
+
+CREATE_WEBAPP_CLIENT_JSON=$(cat <<EOM
+{
+  "clientId": "$WEBAPP_CLIENT_ID"
+}
+EOM
+)
+read -r regid secret <<<$(curl -k -X POST -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -H "Content-Type:application/json" -d "$CREATE_WEBAPP_CLIENT_JSON"  ${KEYCLOAK_URL}/realms/master/clients-registrations/default|  jq -r '[.id, .secret] | @tsv')
+
+export WEBAPP_CLIENT_SECRET=${secret}
+export REG_ID=${regid}
+
+[[ -z "$WEBAPP_CLIENT_SECRET" || $WEBAPP_CLIENT_SECRET == null ]] && { echo "Failed to create client in Keycloak"; exit 1;}
+
+# Create a oauth K8S secret with from the webapp-client's secret. 
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: oauth
+  namespace: gloo-system
+type: extauth.solo.io/oauth
+data:
+  client-secret: $(echo -n ${WEBAPP_CLIENT_SECRET} | base64)
+EOF
+
+# Configure the WebApp Client we've just created.
+CONFIGURE_WEBAPP_CLIENT_JSON=$(cat <<EOM
+{
+  "publicClient": false, 
+  "serviceAccountsEnabled": true, 
+  "directAccessGrantsEnabled": true, 
+  "authorizationServicesEnabled": true, 
+  "redirectUris": [
+    "http://api.example.com/callback",
+    "http://httpbin.example.com/callback"
+  ], 
+  "webOrigins": ["*"]
+}
+EOM
+)
+curl -k -X PUT -H "Authorization: Bearer ${KEYCLOAK_TOKEN}" -H "Content-Type: application/json" -d "$CONFIGURE_WEBAPP_CLIENT_JSON" $KEYCLOAK_URL/admin/realms/master/clients/${REG_ID}
+
+# Add the group attribute in the JWT token returned by Keycloak
+CONFIGURE_GROUP_CLAIM_IN_JWT_JSON=$(cat <<EOM
+{
+  "name": "group", 
+  "protocol": "openid-connect", 
+  "protocolMapper": "oidc-usermodel-attribute-mapper", 
+  "config": {
+    "claim.name": "group", 
+    "jsonType.label": "String", 
+    "user.attribute": "group", 
+    "id.token.claim": "true", 
+    "access.token.claim": "true"
+  }
+}
+EOM
+)
+curl -k -X POST -H "Authorization: Bearer ${KEYCLOAK_TOKEN}" -H "Content-Type: application/json" -d "$CONFIGURE_GROUP_CLAIM_IN_JWT_JSON" $KEYCLOAK_URL/admin/realms/master/clients/${REG_ID}/protocol-mappers/models
+
+
+
+
+
 ################################################ User One: user1@example.com ################################################
 
 # Create first user        
