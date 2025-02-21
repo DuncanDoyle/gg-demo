@@ -1,14 +1,15 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
-  name: api-example-com-route
+  name: api-example-com-https
   namespace: default
   labels:
     app: apis
 spec:
   parentRefs:
-    - name: https
-      namespace: gloo-system
+    - name: gw
+      namespace: ingress-gw
+      sectionName: https
   hostnames:
     - "api.example.com"
   rules:
@@ -16,21 +17,12 @@ spec:
       - path:
           type: PathPrefix
           value: /httpbin/
-      - path:
-          type: PathPrefix
-          value: /httpbin2/
-      # Can't combine URLRewrite ReplacePrefixMatch filter with 2 matchers: https://github.com/solo-io/gloo/issues/8923
-      # - headers:
-      #   - name: version
-      #     value: v2
-      #     type: Exact
-      # Referencing a service in another namespace than the Route, so need to add ReferenceGrant to allow this.
-      # filters:
-      #   - type: URLRewrite
-      #     urlRewrite:
-      #       path:
-      #         type: ReplacePrefixMatch
-      #         replacePrefixMatch: /
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
       backendRefs:
         - name: httpbin
           namespace: httpbin

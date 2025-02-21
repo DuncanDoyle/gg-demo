@@ -1,10 +1,9 @@
 #!/bin/bash
 
-export K8S_GATEWAY_API_VERSION=v1.0.0
+export K8S_GATEWAY_API_VERSION=v1.1.0
 
-# export GLOO_GATEWAY_VERSION="1.17.0-rc5"
 # export GLOO_GATEWAY_VERSION="1.17.0"
-export GLOO_GATEWAY_VERSION="1.18.3"
+export GLOO_GATEWAY_VERSION="1.18.4"
 export DEV_VERSION=false
 export GLOO_GATEWAY_HELM_VALUES_FILE="gloo-gateway-helm-values.yaml"
 

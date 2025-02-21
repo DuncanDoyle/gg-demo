@@ -1,7 +1,7 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
-  name: api-example-com-root-route
+  name: httpbin-example-com-route
   namespace: default
   labels:
     app: apis
@@ -10,21 +10,20 @@ spec:
     - name: gw
       namespace: ingress-gw
   hostnames:
-    - "api.example.com"
+    - "httpbin.example.com"
   rules:
     - matches:  
       - path:
           type: PathPrefix
-          value: /trackapi/v1.0/
-      # filters:
-      # - type: URLRewrite
-      #   urlRewrite:
-      #     path:
-      #       type: ReplacePrefixMatch
-      #       replacePrefixMatch: /
+          value: /httpbin/
+      filters:
+      - type: URLRewrite
+        urlRewrite:
+          path:
+            type: ReplacePrefixMatch
+            replacePrefixMatch: /
       backendRefs:
-      # Delegate to another HTTPRoute
       - group: gateway.networking.k8s.io
         kind: HTTPRoute
-        name: tracks-apiproduct
-        namespace: tracks
+        name: httpbin
+        namespace: default

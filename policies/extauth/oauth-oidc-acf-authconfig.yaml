@@ -8,7 +8,7 @@ spec:
     - name: keycloak_oidc
       oauth2:
         oidcAuthorizationCode:
-          appUrl: http://httpbin.example.com
+          appUrl: http://api.example.com
           autoMapFromMetadata:
             namespace: solo_authconfig_oidc
           callbackPath: /callback
